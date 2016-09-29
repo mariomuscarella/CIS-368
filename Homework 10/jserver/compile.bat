@@ -1,0 +1,2 @@
+javac -d . src\com\hoodedfalcon\*.java src\com\hoodedfalcon\control\*.java src\com\hoodedfalcon\thread\*.java src\com\hoodedfalcon\model\*.java src\com\hoodedfalcon\model\nameaddress\*.java
+jar cmf src\META-INF\MANIFEST.MF jserver.jar com\*
