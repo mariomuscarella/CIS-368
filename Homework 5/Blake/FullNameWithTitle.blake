@@ -1,0 +1,53 @@
+
+USES FullName, SingleName, AlphaString, CharacterString;
+
+BEGINOBJECT FullNameWithTitle INHERITSFROM FullName;
+
+	AlphaString title.CREATE();
+
+	BEGINMODIFYMETHOD setTitle(AlphaString input);
+	
+		/* shunt input in and out of a SingleName to enforce capritalization */
+		SingleName set.CREATE();
+		
+		set.MODIFYset(input.CONSTANTCOPY());
+		ME.title.ALIAS(set.CONSTANTget());
+		
+		set.EMPTY();
+	
+	ENDMODIFYMETHOD setTitle;
+	
+	BEGINCONSTANTMETHOD AlphaString getTitle();
+		
+		RETURN (ME.title.CONSTANTCOPY());
+		
+	ENDCONSTANTMETHOD getTitle;
+	
+	BEGINCONSTANTMETHOD CharacterString getNameWithTitle();
+	
+		CharacterString space.CREATE();
+		CharacterString concat.CREATE();
+		
+		space.MODIFYset(" ");
+		
+		concat.MODIFYappend(title.CONSTANTget());
+		concat.MODIFYappend(space.CONSTANTCOPY());
+		/* calls from the inherited FullName object */
+		concat.MODIFYappend(PARENT.CONSTANTgetFullNameSpaces());
+		
+		space.EMPTY();
+		
+		RETURN (concat.CONSTANTCOPY());
+		
+	ENDCONSTANTMETHOD getNameWithTitle;
+	
+	BEGINCONSTANTMETHOD FullNameWithTitle COPY();
+	
+		FullNameWithTitle ret.CREATE();
+		ret.MODIFYsetAll(PARENT.CONSTANTgetFirst(), PARENT.CONSTANTgetMiddle(), PARENT.CONSTANTgetLast());
+		ret.MODIFYsetTitle(title.CONSTANTCOPY());
+		RETURN(ret.ALIAS());
+	
+	ENDCONSTANTMETHOD COPY;
+
+ENDOBJECT FullNameWithTitle;

@@ -1,0 +1,55 @@
+
+USES AlphaString, CharacterString, IntegerNumber;
+
+BEGINOBJECT SingleName INHERITSFROM AlphaString;
+
+	AlphaString storedAlpha.CREATE();
+
+	BEGINMODIFYMETHOD set(AlphaString input);
+		
+		CharacterString modString.CREATE(); 
+		CharacterString stringUp.CREATE();
+		CharacterString stringLow.CREATE();
+		IntegerNumber charSpaceOne.CREATE();
+		IntegerNumber charSpaceEnd.CREATE();
+		IntegerNumber charSpaceTarget.CREATE();
+		
+		modString.MODIFYset(input.CONSTANTget());
+		
+		charSpaceOne.MODIFYsetCharacterString("1");
+		stringUp.MODIFYset(modString.CONSTANTgetLeft(charSpaceOne.CONSTANTCOPY()));
+		stringUp.MODIFYtoUpperCase();
+
+		charSpaceEnd.MODIFYset(modString.CONSTANTgetLength());
+		charSpaceTarget.MODIFYset(charSpaceEnd.CONSTANTsubtract(charSpaceOne.CONSTANTCOPY()));
+		
+
+		stringLow.MODIFYset(modString.CONSTANTgetRight(charSpaceTarget.CONSTANTCOPY()));
+		stringLow.MODIFYtoLowerCase();
+		stringUp.MODIFYappend(stringLow.CONSTANTCOPY());
+		storedAlpha.MODIFYset(stringUp.CONSTANTCOPY());
+
+		modString.EMPTY();
+		stringUp.EMPTY();
+		stringLow.EMPTY();
+		charSpaceOne.EMPTY();
+		charSpaceEnd.EMPTY();
+		charSpaceTarget.EMPTY();
+		
+	ENDMODIFYMETHOD set;
+	
+	BEGINCONSTANTMETHOD AlphaString get();
+		
+		RETURN (ME.storedAlpha.CONSTANTCOPY());
+		
+	ENDCONSTANTMETHOD get;
+	
+	BEGINCONSTANTMETHOD SingleName COPY();
+		
+		SingleName ret.CREATE();
+		ret.MODIFYset(storedAlpha.CONSTANTCOPY());
+		RETURN (ret.ALIAS());
+	
+	ENDCONSTANTMETHOD COPY;
+	
+ENDOBJECT SingleName;

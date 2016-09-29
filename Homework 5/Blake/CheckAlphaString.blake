@@ -1,0 +1,13 @@
+
+USES CharacterString, BooleanValue;
+
+BEGINOBJECT CheckAlphaString INHERITSFROM BooleanValue;
+
+	BEGINCONSTANTMETHOD BooleanValue check(CharacterString input);
+	
+		/* performs java Character.isLetter(inputArray[]) */
+		RETURN (input.CONSTANTisAlpha());
+		
+	ENDCONSTANTMETHOD check;
+	
+ENDOBJECT CheckAlphaString;

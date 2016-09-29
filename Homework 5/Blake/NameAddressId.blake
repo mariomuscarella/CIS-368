@@ -1,0 +1,33 @@
+
+USES IntegerNumber, NameAddress;
+
+BEGINOBJECT NameAddressId INHERITSFROM NameAddress;
+
+	IntegerNumber id.CREATE();
+	
+	BEGINMODIFYMETHOD setID(IntegerNumber input);
+	
+		ME.id.MODIFYset(input.CONSTANTCOPY());
+		
+	ENDMODIFYMETHOD setID;
+	
+	BEGINCONSTANTMETHOD IntegerNumber getID();
+		
+		RETURN (ME.id.CONSTANTCOPY());
+	
+	ENDCONSTANTMETHOD getID;
+	
+	BEGINCONSTANTMETHOD NameAddressId COPY();
+	
+		NameAddressId ret.CREATE();
+		ret.MODIFYsetAll(PARENT.CONSTANTgetFirst(), PARENT.CONSTANTgetMiddle(), PARENT.CONSTANTgetLast());
+		ret.MODIFYsetStreet(PARENT.CONSTANTgetStreet());
+		ret.MODIFYsetCity(PARENT.CONSTANTgetCity());
+		ret.MODIFYsetState(PARENT.CONSTANTgetState());
+		ret.MODIFYsetZip(PARENT.CONSTANTgetZip());
+		ret.MODIFYsetID(id.CONSTANTCOPY());
+		RETURN (ret.ALIAS());
+		
+	ENDCONSTANTMETHOD COPY;
+
+ENDOBJECT NameAddressId;

@@ -1,0 +1,125 @@
+USES IntegerNumber, CharacterString, SingleName, FullName, Address;
+
+BEGINOBJECT NameAddress INHERITSFROM CharacterString;
+
+	/* Object is defined to hold one full name and one address */
+	FullName name.CREATE();
+	Address address.CREATE();
+	
+	/* Contanins all methods that exist in the objects it holds */
+	/* This is where you need all those constantcopy() methods */
+	BEGINMODIFYMETHOD setFirst(SingleName inputName);
+	
+		ME.name.MODIFYsetFirst(inputName.CONSTANTCOPY());
+	
+	ENDMODIFYMETHOD setFirst;
+
+	BEGINMODIFYMETHOD setMiddle(SingleName inputName);
+		
+		ME.name.MODIFYsetMiddle(inputName.CONSTANTCOPY());
+		
+	ENDMODIFYMETHOD setMiddle;
+	
+	BEGINMODIFYMETHOD setLast(SingleName inputName);
+	
+		ME.name.MODIFYsetLast(inputName.CONSTANTCOPY());
+	
+	ENDMODIFYMETHOD setLast;
+	
+	BEGINMODIFYMETHOD setAll(SingleName inputFirst, SingleName inputMiddle, SingleName inputLast);
+		
+		ME.name.MODIFYsetAll(inputFirst.CONSTANTCOPY(), inputMiddle.CONSTANTCOPY(), inputLast.CONSTANTCOPY());
+		
+	ENDMODIFYMETHOD setAll;
+	
+	BEGINMODIFYMETHOD setStreet(CharacterString input);
+		
+		ME.address.MODIFYsetStreet(input.CONSTANTCOPY());
+		
+	ENDMODIFYMETHOD setStreet;
+	
+	BEGINMODIFYMETHOD setCity(SingleName input);
+		
+		ME.address.MODIFYsetCity(input.CONSTANTCOPY());
+
+	ENDMODIFYMETHOD setCity;
+
+	BEGINMODIFYMETHOD setState(SingleName input);
+	
+		ME.address.MODIFYsetState(input.CONSTANTCOPY());
+
+	ENDMODIFYMETHOD setState;
+
+	BEGINMODIFYMETHOD setZip(IntegerNumber input);
+	
+		ME.address.MODIFYsetZip(input.CONSTANTCOPY());
+		
+	ENDMODIFYMETHOD setZip;
+	
+	BEGINCONSTANTMETHOD SingleName getFirst();
+	
+		RETURN (ME.name.CONSTANTgetFirst());
+	
+	ENDCONSTANTMETHOD getFirst;
+	
+	BEGINCONSTANTMETHOD SingleName getMiddle();
+	
+		RETURN (ME.name.CONSTANTgetMiddle());
+	
+	ENDCONSTANTMETHOD getMiddle;
+	
+	BEGINCONSTANTMETHOD SingleName getLast();
+	
+		RETURN (ME.name.CONSTANTgetLast());
+	
+	ENDCONSTANTMETHOD getLast;
+	
+	BEGINCONSTANTMETHOD CharacterString getFullNameSpaces();
+	
+		RETURN (ME.name.CONSTANTgetFullNameSpaces());
+	
+	ENDCONSTANTMETHOD getFullNameSpaces;
+	
+	BEGINCONSTANTMETHOD CharacterString getLastCommaFirst();
+	
+		RETURN (ME.name.CONSTANTgetLastCommaFirst());
+	
+	ENDCONSTANTMETHOD getLastCommaFirst;
+	
+	BEGINCONSTANTMETHOD CharacterString getStreet();
+	
+		RETURN (ME.address.CONSTANTgetStreet());
+
+	ENDCONSTANTMETHOD getStreet;
+
+	BEGINCONSTANTMETHOD SingleName getCity();
+	
+		RETURN (ME.address.CONSTANTgetCity());
+	
+	ENDCONSTANTMETHOD getCity;
+
+	BEGINCONSTANTMETHOD SingleName getState();
+	
+		RETURN (ME.address.CONSTANTgetState());
+	
+	ENDCONSTANTMETHOD getState;
+
+	BEGINCONSTANTMETHOD IntegerNumber getZip();
+	
+		RETURN (ME.address.CONSTANTgetZip());
+
+	ENDCONSTANTMETHOD getZip;
+	
+	BEGINCONSTANTMETHOD NameAddress COPY();
+	
+		NameAddress ret.CREATE();
+		ret.MODIFYsetAll(name.CONSTANTgetFirst(), name.CONSTANTgetMiddle(), name.CONSTANTgetLast());
+		ret.MODIFYsetStreet(address.CONSTANTgetStreet());
+		ret.MODIFYsetCity(address.CONSTANTgetCity());
+		ret.MODIFYsetState(address.CONSTANTgetState());
+		ret.MODIFYsetZip(address.CONSTANTgetZip());
+		RETURN (ret.ALIAS());
+	
+	ENDCONSTANTMETHOD COPY;
+
+ENDOBJECT NameAddress;

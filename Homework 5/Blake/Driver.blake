@@ -1,0 +1,106 @@
+USES IntegerNumber, CharacterString, AlphaString, CheckAlphaString, SingleName, FullName, NameAddressId;
+
+BEGINPROGRAM Driver;
+
+	IntegerNumber number.CREATE();
+	CharacterString string.CREATE();
+	AlphaString input.CREATE();
+	CheckAlphaString check.CREATE();
+	SingleName first.CREATE();
+	SingleName middle.CREATE();
+	SingleName last.CREATE();
+	NameAddressId nameAddressId.CREATE();
+
+	OUTPUT("Please enter your first name: ");
+	input.MODIFYset(INPUTLINE);
+	BEGINLOOPUNTIL(check.CONSTANTcheck(input.CONSTANTget()));
+		OUTPUT("Please enter your first name: ");
+		input.MODIFYset(INPUTLINE);
+	ENDLOOPUNTIL(check.CONSTANTcheck(input.CONSTANTget()));
+	first.MODIFYset(input.CONSTANTCOPY());
+	
+	OUTPUT("Please enter your middle name: ");
+	input.MODIFYset(INPUTLINE);
+	BEGINLOOPUNTIL(check.CONSTANTcheck(input.CONSTANTget()));
+		OUTPUT("Please enter your middle name: ");
+		input.MODIFYset(INPUTLINE);
+	ENDLOOPUNTIL(check.CONSTANTcheck(input.CONSTANTget()));
+	middle.MODIFYset(input.CONSTANTCOPY());
+	
+	OUTPUT("Please enter your last name: ");
+	input.MODIFYset(INPUTLINE);
+	BEGINLOOPUNTIL(check.CONSTANTcheck(input.CONSTANTget()));
+		OUTPUT("Please enter your last name: ");
+		input.MODIFYset(INPUTLINE);
+	ENDLOOPUNTIL(check.CONSTANTcheck(input.CONSTANTget()));
+	last.MODIFYset(input.CONSTANTCOPY());
+	
+	nameAddressId.MODIFYsetAll(first.CONSTANTCOPY(), middle.CONSTANTCOPY(), last.CONSTANTCOPY());
+	
+	OUTPUT("Please enter your ID number: ");
+	string.MODIFYset(INPUTLINE);
+	nameAddressId.MODIFYsetID(string.CONSTANTtoIntegerNumber());
+	
+	OUTPUT("Please enter your Street address: ");
+	nameAddressId.MODIFYsetStreet(INPUTLINE);
+		
+	OUTPUT("Please enter your City: ");
+	input.MODIFYset(INPUTLINE);
+	BEGINLOOPUNTIL(check.CONSTANTcheck(input.CONSTANTget()));
+		OUTPUT("Please enter your City:  ");
+		input.MODIFYset(INPUTLINE);
+	ENDLOOPUNTIL(check.CONSTANTcheck(input.CONSTANTget()));
+	first.MODIFYset(input.CONSTANTCOPY());
+	nameAddressId.MODIFYsetCity(first.CONSTANTCOPY());
+	
+	OUTPUT("Please enter your State: ");
+	input.MODIFYset(INPUTLINE);
+	BEGINLOOPUNTIL(check.CONSTANTcheck(input.CONSTANTget()));
+		OUTPUT("Please enter your State:  ");
+		input.MODIFYset(INPUTLINE);
+	ENDLOOPUNTIL(check.CONSTANTcheck(input.CONSTANTget()));
+	first.MODIFYset(input.CONSTANTCOPY());
+	nameAddressId.MODIFYsetState(first.CONSTANTCOPY());
+	
+	OUTPUT("Please enter your ZIP: ");
+	string.MODIFYset(INPUTLINE);
+	nameAddressId.MODIFYsetZip(string.CONSTANTtoIntegerNumber()); 
+	
+	OUTPUTLINE("");
+	OUTPUT("Your full name is: ");
+	OUTPUTLINE(nameAddressId.CONSTANTgetFullNameSpaces());
+	
+	OUTPUTLINE("");
+	OUTPUT("Your name in 'last, first' format is: ");
+	OUTPUTLINE(nameAddressId.CONSTANTgetLastCommaFirst());
+	
+	OUTPUTLINE("");
+	OUTPUT("Your ID number is: ");
+	number.MODIFYset(nameAddressId.CONSTANTgetID());
+	OUTPUTLINE(number.CONSTANTtoCharacterString());
+	
+	OUTPUTLINE("");
+	OUTPUTLINE("Your address is: ");
+	OUTPUTLINE(nameAddressId.CONSTANTgetStreet());
+	first.ALIAS(nameAddressId.CONSTANTgetCity());
+	input.ALIAS(first.CONSTANTget());
+	OUTPUT(input.CONSTANTget());
+	OUTPUT(", ");
+	first.ALIAS(nameAddressId.CONSTANTgetState());
+	input.ALIAS(first.CONSTANTget());
+	OUTPUT(input.CONSTANTget());
+	OUTPUT(" ");
+	number.MODIFYset(nameAddressId.CONSTANTgetZip());
+	OUTPUTLINE(number.CONSTANTtoCharacterString());
+	
+	
+	number.EMPTY();
+	string.EMPTY();
+	input.EMPTY();
+	check.EMPTY();
+	first.EMPTY();
+	middle.EMPTY();
+	last.EMPTY();
+	nameAddressId.EMPTY();	
+
+ENDPROGRAM Driver;
