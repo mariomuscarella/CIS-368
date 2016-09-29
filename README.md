@@ -2,7 +2,7 @@
 
 Object Oriented Programming
 
-Programming Language BLAKE created by Dr. Ben Blake as a 'true' OOP language
+Programming language BLAKE created by Dr. Ben Blake as a 'true' OOP language
 
 Select content available. 
 
