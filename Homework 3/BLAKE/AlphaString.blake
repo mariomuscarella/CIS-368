@@ -1,0 +1,36 @@
+
+USES CharacterString;
+
+BEGINOBJECT AlphaString INHERITSFROM CharacterString;
+
+	/* BLAKE ME = java this */
+	
+	CharacterString storedString.CREATE();
+	
+	/* java this.storedString = input */
+	BEGINMODIFYMETHOD set(CharacterString input);
+	
+		ME.storedString.MODIFYset(input.CONSTANTCOPY());
+		
+	ENDMODIFYMETHOD set;
+	
+	/* java return storedString */
+	BEGINCONSTANTMETHOD CharacterString get();
+	
+		RETURN (ME.storedString.CONSTANTCOPY());
+		
+	ENDCONSTANTMETHOD get;
+	
+	/* BLAKE objects cannot be called directly, must make a new CONSTANTCOPY() */
+	BEGINCONSTANTMETHOD AlphaString COPY();
+		
+		AlphaString ret.CREATE();
+		ret.MODIFYset(storedString.CONSTANTCOPY());
+		RETURN (ret.ALIAS());
+	
+	ENDCONSTANTMETHOD COPY;
+
+ENDOBJECT AlphaString;
+	
+	
+	

@@ -1,0 +1,81 @@
+
+USES AlphaString, CharacterString, IntegerNumber;
+
+BEGINOBJECT SingleName INHERITSFROM AlphaString;
+
+	AlphaString storedAlpha.CREATE();
+
+	BEGINMODIFYMETHOD set(AlphaString input);
+		
+		CharacterString modString.CREATE(); 
+		CharacterString stringUp.CREATE();
+		CharacterString stringLow.CREATE();
+		IntegerNumber charSpaceOne.CREATE();
+		IntegerNumber charSpaceEnd.CREATE();
+		IntegerNumber charSpaceTarget.CREATE();
+		
+		/* use AlphaString.CONSTANTget() to work with easier CharacterString object */
+		modString.MODIFYset(input.CONSTANTget());
+		
+		/* performs java modString.substring(0,1).toUpperCase() */
+		charSpaceOne.MODIFYsetCharacterString("1");
+		stringUp.MODIFYset(modString.CONSTANTgetLeft(charSpaceOne.CONSTANTCOPY()));
+		stringUp.MODIFYtoUpperCase();
+		
+		/* CONSTANTgetRight() performs a [modString.length - param] to do start postion */
+		charSpaceEnd.MODIFYset(modString.CONSTANTgetLength());
+		charSpaceTarget.MODIFYset(charSpaceEnd.CONSTANTsubtract(charSpaceOne.CONSTANTCOPY()));
+		
+		/* performs equivalent java modString.substring(1).toLowerCase() */
+		stringLow.MODIFYset(modString.CONSTANTgetRight(charSpaceTarget.CONSTANTCOPY()));
+		stringLow.MODIFYtoLowerCase();
+		
+		/* performs stringUp + stringLow */
+		stringUp.MODIFYappend(stringLow.CONSTANTCOPY());
+		
+		/* stores string to local AlphaString object */
+		storedAlpha.MODIFYset(stringUp.CONSTANTCOPY());
+
+		modString.EMPTY();
+		stringUp.EMPTY();
+		stringLow.EMPTY();
+		charSpaceOne.EMPTY();
+		charSpaceEnd.EMPTY();
+		charSpaceTarget.EMPTY();
+		
+	ENDMODIFYMETHOD set;
+	
+	/* Returns the stored AlphaString data object */
+	BEGINCONSTANTMETHOD AlphaString get();
+		
+		RETURN (ME.storedAlpha.CONSTANTCOPY());
+		
+	ENDCONSTANTMETHOD get;
+	
+	/* CONSTANTCOPY() override to return a copy of itself */
+	BEGINCONSTANTMETHOD SingleName COPY();
+		
+		SingleName ret.CREATE();
+		ret.MODIFYset(storedAlpha.CONSTANTCOPY());
+		RETURN (ret.ALIAS());
+	
+	ENDCONSTANTMETHOD COPY;
+	
+	/* CONSTANTtoCharacterString() override to return a copy of AlphaString's data */
+	BEGINCONSTANTMETHOD CharacterString toCharacterString();
+	
+		CharacterString ret.CREATE();
+		ret.MODIFYset(storedAlpha.CONSTANTget());
+		RETURN (ret.CONSTANTCOPY());
+		
+	ENDCONSTANTMETHOD toCharacterString;
+	
+ENDOBJECT SingleName;
+
+/*
+SingleName inherits from AlphaString has data and two methods:
+
+set(AlphaString);
+
+AlphaStringType get(); (if not possible LanguageStringType get())
+*/

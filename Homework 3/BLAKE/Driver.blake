@@ -1,0 +1,67 @@
+USES AlphaString, CheckAlphaString, SingleName, FullName, Address, CharacterString, IntegerNumber;
+
+BEGINPROGRAM Driver;
+	
+	AlphaString alpha.CREATE();
+	SingleName single.CREATE();
+	CheckAlphaString check.CREATE();
+	CharacterString string.CREATE();
+	IntegerNumber number.CREATE();
+	FullName concatAddress.CREATE();
+	Address address.CREATE();
+	
+	/* Collect stree address as an unformatted AlphaString */
+	OUTPUT("Enter a stree address (number and name): ");
+	alpha.MODIFYset(INPUTLINE);
+	address.MODIFYsetStreet(alpha.CONSTANTget());
+	
+	/* Enter a city name in a SingleName string that forces alphabetical only */
+	OUTPUT("Enter a city: ");
+	alpha.MODIFYset(INPUTLINE);
+	BEGINLOOPUNTIL(check.CONSTANTcheck(alpha.CONSTANTget()));
+		OUTPUTLINE("");
+		OUTPUT("Enter a city: ");
+		alpha.MODIFYset(INPUTLINE);
+	ENDLOOPUNTIL(check.CONSTANTcheck(alpha.CONSTANTget()));
+	single.MODIFYset(alpha.CONSTANTCOPY());
+	address.MODIFYsetCity(single.CONSTANTCOPY());
+	
+	/* Enter a state name in a SingleName string that forces alphabetical only */
+	OUTPUT("Enter a State: ");
+	alpha.MODIFYset(INPUTLINE);
+	BEGINLOOPUNTIL(check.CONSTANTcheck(alpha.CONSTANTget()));
+		OUTPUTLINE("");
+		OUTPUT("Enter a State: ");
+		alpha.MODIFYset(INPUTLINE);
+	ENDLOOPUNTIL(check.CONSTANTcheck(alpha.CONSTANTget()));
+	single.MODIFYset(alpha.CONSTANTCOPY());
+	address.MODIFYsetState(single.CONSTANTCOPY());
+	
+	/* collect ZIP as string input and cast to IntegerNumber for assignment */
+	OUTPUT("Enter a zipcode: ");
+	string.MODIFYset(INPUTLINE);
+	address.MODIFYsetZip(string.CONSTANTtoIntegerNumber());
+	
+	OUTPUTLINE("");
+	
+	/* The get objects from Street and ZIP both have existing toString methods */
+	/* Use the getLastCommaFirst from FullName to easily format City and State */
+	OUTPUTLINE("The full address is:");
+	OUTPUTLINE(address.CONSTANTgetStreet());
+	concatAddress.MODIFYsetLast(address.CONSTANTgetCity());
+	concatAddress.MODIFYsetFirst(address.CONSTANTgetState());
+	OUTPUT(concatAddress.CONSTANTgetLastCommaFirst());
+	OUTPUT(" ");
+	number.MODIFYset(address.CONSTANTgetZip());
+	OUTPUTLINE(number.CONSTANTtoCharacterString());
+	
+	alpha.EMPTY();
+	single.EMPTY();
+	check.EMPTY();
+	string.EMPTY();
+	number.EMPTY();
+	concatAddress.EMPTY();
+	address.EMPTY();
+	
+
+ENDPROGRAM Driver;

@@ -1,0 +1,134 @@
+
+USES CharacterString, AlphaString, SingleName;
+
+BEGINOBJECT FullName INHERITSFROM CharacterString;
+
+	/* Store each SingleName component in object */
+	SingleName firstName.CREATE();
+	SingleName middleName.CREATE();
+	SingleName lastName.CREATE();
+
+	BEGINMODIFYMETHOD setFirst(SingleName inputName);
+	
+		ME.firstName.MODIFYset(inputName.CONSTANTget());
+	
+	ENDMODIFYMETHOD setFirst;
+	
+	BEGINMODIFYMETHOD setMiddle(SingleName inputName);
+		
+		ME.middleName.MODIFYset(inputName.CONSTANTget());
+		
+	ENDMODIFYMETHOD setMiddle;
+	
+	BEGINMODIFYMETHOD setLast(SingleName inputName);
+	
+		ME.lastName.MODIFYset(inputName.CONSTANTget());
+	
+	ENDMODIFYMETHOD setLast;
+	
+	BEGINMODIFYMETHOD setAll(SingleName inputFirst, SingleName inputMiddle, SingleName inputLast);
+		
+		/* I feel like there's a way to use the above set methods instead */
+		ME.firstName.MODIFYset(inputFirst.CONSTANTget());
+		ME.middleName.MODIFYset(inputMiddle.CONSTANTget());
+		ME.lastName.MODIFYset(inputLast.CONSTANTget());
+		
+	ENDMODIFYMETHOD setAll;
+	
+	BEGINCONSTANTMETHOD SingleName getFirst();
+	
+		RETURN (ME.firstName.CONSTANTCOPY());
+	
+	ENDCONSTANTMETHOD getFirst;
+	
+	BEGINCONSTANTMETHOD SingleName getMiddle();
+	
+		RETURN (ME.middleName.CONSTANTCOPY());
+	
+	ENDCONSTANTMETHOD getMiddle;
+	
+	BEGINCONSTANTMETHOD SingleName getLast();
+	
+		RETURN (ME.lastName.CONSTANTCOPY());
+	
+	ENDCONSTANTMETHOD getLast;
+	
+	BEGINCONSTANTMETHOD CharacterString getFullNameSpaces();
+	
+		CharacterString space.CREATE();
+		CharacterString concat.CREATE();
+		CharacterString blank.CREATE();
+		AlphaString first.CREATE();
+		AlphaString middle.CREATE();
+		AlphaString last.CREATE();
+		
+		space.MODIFYset(" ");
+		first.ALIAS(firstName.CONSTANTget());
+		middle.ALIAS(middleName.CONSTANTget());
+		last.ALIAS(lastName.CONSTANTget());
+		
+		/* start building a concatenated character string using the MODIFYappend() */
+		concat.MODIFYappend(first.CONSTANTget());
+		
+		/* conditional, if someone does not enter a last name skip adding it */
+		/* Otherwise a person with no middle name has a double space between First and Last */
+		BEGINIF (blank.CONSTANTequals(middle.CONSTANTget()));
+		ELSENOT (blank.CONSTANTequals(middle.CONSTANTget()));
+			concat.MODIFYappend(space.CONSTANTCOPY());
+			concat.MODIFYappend(middle.CONSTANTget());
+		ENDIF (blank.CONSTANTequals(middle.CONSTANTget()));
+		
+		concat.MODIFYappend(space.CONSTANTCOPY());
+		concat.MODIFYappend(last.CONSTANTget());
+
+		space.EMPTY();
+		blank.EMPTY();
+		first.EMPTY();
+		middle.EMPTY();
+		last.EMPTY();
+		
+		RETURN (concat.CONSTANTCOPY());
+	
+	ENDCONSTANTMETHOD getFullNameSpaces;
+	
+	BEGINCONSTANTMETHOD CharacterString getLastCommaFirst();
+
+		CharacterString commaSpace.CREATE();
+		CharacterString space.CREATE();
+		CharacterString concat.CREATE();
+		AlphaString first.CREATE();
+		AlphaString middle.CREATE();
+		AlphaString last.CREATE();
+		
+		commaSpace.MODIFYset(", ");	
+		space.MODIFYset(" ");
+		first.ALIAS(firstName.CONSTANTget());
+		middle.ALIAS(middleName.CONSTANTget());
+		last.ALIAS(lastName.CONSTANTget());
+		
+		/* pretty much the same as getFullNameSpaces(), but different order */
+		concat.MODIFYappend(last.CONSTANTget());
+		concat.MODIFYappend(commaSpace.CONSTANTCOPY());
+		concat.MODIFYappend(first.CONSTANTget());
+		concat.MODIFYappend(space.CONSTANTCOPY());
+		concat.MODIFYappend(middle.CONSTANTget());
+		
+		commaSpace.EMPTY();
+		space.EMPTY();
+		first.EMPTY();
+		middle.EMPTY();
+		last.EMPTY();
+		
+		RETURN (concat.CONSTANTCOPY());	
+	
+	ENDCONSTANTMETHOD getLastCommaFirst;
+	
+	BEGINCONSTANTMETHOD FullName COPY();
+	
+		FullName ret.CREATE();
+		ret.MODIFYsetAll(firstName.CONSTANTCOPY(), middleName.CONSTANTCOPY(), lastName.CONSTANTCOPY());
+		RETURN (ret.ALIAS());
+	
+	ENDCONSTANTMETHOD COPY;
+
+ENDOBJECT FullName;

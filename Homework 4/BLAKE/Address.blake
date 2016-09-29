@@ -1,0 +1,70 @@
+
+USES CharacterString, SingleName, IntegerNumber;
+
+BEGINOBJECT Address INHERITSFROM CharacterString;
+
+	CharacterString street.CREATE();
+	SingleName city.CREATE();
+	SingleName state.CREATE();
+	IntegerNumber zip.CREATE();
+
+	BEGINMODIFYMETHOD setStreet(CharacterString input);
+	
+		ME.street.MODIFYset(input.CONSTANTCOPY());
+
+	ENDMODIFYMETHOD setStreet;
+
+	BEGINMODIFYMETHOD setCity(SingleName input);
+	
+		ME.city.MODIFYset(input.CONSTANTget());
+
+	ENDMODIFYMETHOD setCity;
+
+	BEGINMODIFYMETHOD setState(SingleName input);
+	
+		ME.state.MODIFYset(input.CONSTANTget());
+
+	ENDMODIFYMETHOD setState;
+
+	BEGINMODIFYMETHOD setZip(IntegerNumber input);
+	
+		ME.zip.MODIFYset(input.CONSTANTCOPY());
+
+	ENDMODIFYMETHOD setZip;
+
+	BEGINCONSTANTMETHOD CharacterString getStreet();
+	
+		RETURN (ME.street.CONSTANTCOPY());
+
+	ENDCONSTANTMETHOD getStreet;
+
+	BEGINCONSTANTMETHOD SingleName getCity();
+	
+		RETURN (ME.city.CONSTANTCOPY());
+	
+	ENDCONSTANTMETHOD getCity;
+
+	BEGINCONSTANTMETHOD SingleName getState();
+	
+		RETURN (ME.state.CONSTANTCOPY());
+	
+	ENDCONSTANTMETHOD getState;
+
+	BEGINCONSTANTMETHOD IntegerNumber getZip();
+	
+		RETURN (ME.zip.CONSTANTCOPY());
+
+	ENDCONSTANTMETHOD getZip;
+	
+	BEGINCONSTANTMETHOD Address COPY();
+	
+		Address ret.CREATE();
+		ret.MODIFYsetStreet(street.CONSTANTCOPY());
+		ret.MODIFYsetCity(city.CONSTANTCOPY());
+		ret.MODIFYsetState(state.CONSTANTCOPY());
+		ret.MODIFYsetZip(zip.CONSTANTCOPY());
+		RETURN (ret.ALIAS());
+	
+	ENDCONSTANTMETHOD COPY;
+	
+ENDOBJECT Address;

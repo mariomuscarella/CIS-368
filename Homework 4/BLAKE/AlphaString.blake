@@ -1,0 +1,31 @@
+
+USES CharacterString;
+
+BEGINOBJECT AlphaString INHERITSFROM CharacterString;
+
+	CharacterString storedString.CREATE();
+	
+	BEGINMODIFYMETHOD set(CharacterString input);
+	
+		ME.storedString.MODIFYset(input.CONSTANTCOPY());
+		
+	ENDMODIFYMETHOD set;
+	
+	BEGINCONSTANTMETHOD CharacterString get();
+	
+		RETURN (ME.storedString.CONSTANTCOPY());
+		
+	ENDCONSTANTMETHOD get;
+	
+	BEGINCONSTANTMETHOD AlphaString COPY();
+		
+		AlphaString ret.CREATE();
+		ret.MODIFYset(storedString.CONSTANTCOPY());
+		RETURN (ret.ALIAS());
+	
+	ENDCONSTANTMETHOD COPY;
+
+ENDOBJECT AlphaString;
+	
+	
+	
