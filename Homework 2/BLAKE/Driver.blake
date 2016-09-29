@@ -1,0 +1,45 @@
+
+USES AlphaString, SingleName, CheckAlphaString;
+
+BEGINPROGRAM Driver;
+
+	/* create at least once instace of the objects to use */
+	/* Even what would normally be a static reference is an object */
+	AlphaString driverOne.CREATE();
+	SingleName driverTwo.CREATE();
+	CheckAlphaString check.CREATE();	
+	
+	/* Initial input before loop cause I can't figure out do...while syntax in BLAKE */
+	/* Also tests AlphaString.set() */
+	OUTPUT("Please enter an alphabetic string: ");
+	driverOne.MODIFYset(INPUTLINE);
+
+	/* While the CheckAlphaString.check() method returns false this will loop */
+	/* If it'a already true form the first input loop is skipped */
+	BEGINLOOPUNTIL(check.CONSTANTcheck(driverOne.CONSTANTget()));
+		OUTPUT(driverOne.CONSTANTget());
+		OUTPUTLINE(" is not an alphabetic string.");
+		OUTPUTLINE("");
+		OUTPUT("Please enter an alphabetic string: ");
+		driverOne.MODIFYset(INPUTLINE);
+	ENDLOOPUNTIL(check.CONSTANTcheck(driverOne.CONSTANTget()));
+	
+	/* test AlphaString.get() by printing it back to screen */
+	OUTPUTLINE("");
+	OUTPUT("You entered: ");
+	OUTPUT(driverOne.CONSTANTget());
+	OUTPUTLINE("");	
+	
+	/* Test SingleName.set() by feeding it AlphaString.get() */
+	driverTwo.MODIFYset(driverOne.CONSTANTget());
+	
+	/* Print the resulting SingleName with SingleName.get() */
+	OUTPUT("It was adjusted to: ");
+	OUTPUT(driverTwo.CONSTANTget());
+	OUTPUTLINE("");
+	
+	driverOne.EMPTY();
+	driverTwo.EMPTY();
+	check.EMPTY();
+	
+ENDPROGRAM Driver;

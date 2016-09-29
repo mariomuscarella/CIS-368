@@ -1,0 +1,41 @@
+
+USES CharacterString, IntegerNumber, AlphaString;
+
+BEGINOBJECT SingleName INHERITSFROM AlphaString;
+
+	BEGINMODIFYMETHOD set(CharacterString input);
+		
+		CharacterString stringUp.CREATE();
+		CharacterString stringLow.CREATE();
+		IntegerNumber charSpaceOne.CREATE();
+		IntegerNumber charSpaceEnd.CREATE();
+		IntegerNumber charSpaceTarget.CREATE();
+		
+		/* performs java input.substring(0,1).toUpperCase() */
+		charSpaceOne.MODIFYsetCharacterString("1");
+		stringUp.MODIFYset(input.CONSTANTgetLeft(charSpaceOne.CONSTANTCOPY()));
+		stringUp.MODIFYtoUpperCase();
+		
+		/* CONSTANTgetRight() performs a [input.length - param] to do start postion */
+		charSpaceEnd.MODIFYset(input.CONSTANTgetLength());
+		charSpaceTarget.MODIFYset(charSpaceEnd.CONSTANTsubtract(charSpaceOne.CONSTANTCOPY()));
+		
+		/* performs equivalent java input.substring(1).toLowerCase() */
+		stringLow.MODIFYset(input.CONSTANTgetRight(charSpaceTarget.CONSTANTCOPY()));
+		stringLow.MODIFYtoLowerCase();
+		
+		/* performs stringUp + stringLow */
+		stringUp.MODIFYappend(stringLow.CONSTANTCOPY());
+		
+		/* calls super.set() method from parent class */
+		PARENT.MODIFYset(stringUp.CONSTANTCOPY());
+		
+		stringUp.EMPTY();
+		stringLow.EMPTY();
+		charSpaceOne.EMPTY();
+		charSpaceEnd.EMPTY();
+		charSpaceTarget.EMPTY();
+		
+	ENDMODIFYMETHOD set;
+	
+ENDOBJECT SingleName;
